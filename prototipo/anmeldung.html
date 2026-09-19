@@ -87,6 +87,7 @@
     align-items:center;
     justify-content:space-between;
   }
+  a.wordmark{text-decoration:none;color:inherit;}
   .wordmark{
     font-family:'Sora',sans-serif;
     font-weight:700;
@@ -277,6 +278,7 @@
   }
   .done-icon svg{width:22px;height:22px;}
   .step-done h1{margin-top:16px;}
+  .done-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px;}
   .step-done .sub{margin-top:10px;}
   .btn-quiet{
     margin-top:22px;
@@ -289,7 +291,7 @@
 
 <header class="nav">
   <div class="nav-row">
-    <a class="wordmark" href="https://claude.ai/code/artifact/56663183-8b6f-43fd-a9d6-71e48831455d"><span class="dot"></span>Viddoc</a>
+    <a class="wordmark" href="home.html"><span class="dot"></span>Viddoc</a>
     <span class="nav-hint">Noch kein Konto? Einfach E-Mail eingeben.</span>
   </div>
 </header>
@@ -352,13 +354,16 @@
         </div>
         <h1 id="done-heading">Angemeldet</h1>
         <p class="sub" id="done-sub">Prototyp-Hinweis: In der fertigen App würden Sie jetzt zu Ihrem Viddoc Dashboard weitergeleitet.</p>
-        <button class="btn btn-quiet" type="button" id="restart">Zurück zum Anfang</button>
+        <div class="done-actions">
+          <a class="btn btn-primary" href="upload.html">Weiter zum Upload</a>
+          <button class="btn btn-quiet" type="button" id="restart">Zurück zum Anfang</button>
+        </div>
       </div>
 
     </div>
 
     <p class="legal">Mit der Fortsetzung akzeptieren Sie die <a href="#">Nutzungsbedingungen</a> und die <a href="#">Datenschutzerklärung</a> von Viddoc.</p>
-    <a class="back-link" href="https://claude.ai/code/artifact/56663183-8b6f-43fd-a9d6-71e48831455d">← Zurück zur Startseite</a>
+    <a class="back-link" href="home.html">← Zurück zur Startseite</a>
   </div>
 </main>
 
