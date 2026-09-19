@@ -1,0 +1,450 @@
+<meta charset="utf-8">
+<title>Viddoc Anmeldung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F5F0;
+    --surface:#FFFFFF;
+    --ink:#171B1F;
+    --ink-soft:#565F6B;
+    --ink-faint:#8A9099;
+    --accent:#1751D6;
+    --accent-strong:#0F3DA8;
+    --accent-soft:#E7EDFB;
+    --danger:#B3261E;
+    --danger-soft:#FBEAE9;
+    --line:#E6E1D6;
+    --line-strong:#D4CEC0;
+    --shadow: 0 1px 2px rgba(23,27,31,0.04), 0 20px 44px -18px rgba(23,27,31,0.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171B;
+      --surface:#1B1F24;
+      --ink:#F1EFE9;
+      --ink-soft:#AEB4BC;
+      --ink-faint:#767D86;
+      --accent:#6E97F2;
+      --accent-strong:#8FB0F7;
+      --accent-soft:#212B42;
+      --danger:#F2A29C;
+      --danger-soft:#3A2321;
+      --line:#2A2F36;
+      --line-strong:#383F48;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 20px 44px -18px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171B;
+    --surface:#1B1F24;
+    --ink:#F1EFE9;
+    --ink-soft:#AEB4BC;
+    --ink-faint:#767D86;
+    --accent:#6E97F2;
+    --accent-strong:#8FB0F7;
+    --accent-soft:#212B42;
+    --danger:#F2A29C;
+    --danger-soft:#3A2321;
+    --line:#2A2F36;
+    --line-strong:#383F48;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 20px 44px -18px rgba(0,0,0,0.55);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+  }
+  h1{
+    font-family:'Sora','Helvetica Neue',Arial,sans-serif;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.015em;
+    text-wrap:balance;
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  [hidden]{display:none!important;}
+
+  header.nav{
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    max-width:1120px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .wordmark{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .wordmark .dot{width:9px;height:9px;border-radius:2px;background:var(--accent);flex:none;}
+  .nav-hint{font-size:13.5px;color:var(--ink-faint);}
+  .nav-hint a{color:var(--accent);font-weight:500;text-decoration:none;}
+  .nav-hint a:hover{text-decoration:underline;}
+
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 24px;
+  }
+
+  .auth-shell{
+    width:100%;
+    max-width:392px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:36px 32px;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .step{animation:rise 0.32s ease both;}
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .step-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .step h1{
+    font-size:24px;
+    font-weight:700;
+    margin-top:10px;
+  }
+  .step .sub{
+    margin-top:8px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+
+  form{margin-top:26px;display:flex;flex-direction:column;gap:16px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+  }
+  .field input{
+    width:100%;
+    font-family:inherit;
+    font-size:15px;
+    padding:12px 14px;
+    border-radius:9px;
+    border:1px solid var(--line-strong);
+    background:var(--bg);
+    color:var(--ink);
+  }
+  .field input:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .btn{
+    font-family:inherit;
+    font-size:15px;
+    font-weight:600;
+    border-radius:9px;
+    padding:12px 20px;
+    border:1px solid transparent;
+    cursor:pointer;
+    width:100%;
+    text-align:center;
+  }
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-strong);}
+  .btn-primary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .hint{
+    margin-top:14px;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    line-height:1.5;
+  }
+  .hint code{
+    font-family:'IBM Plex Mono',monospace;
+    background:var(--accent-soft);
+    color:var(--accent-strong);
+    padding:1px 5px;
+    border-radius:4px;
+  }
+
+  .email-chip{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--bg);
+    border:1px solid var(--line-strong);
+    border-radius:9px;
+    padding:10px 14px;
+    font-size:14.5px;
+  }
+  .email-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .link-btn{
+    background:none;border:none;padding:0;
+    font-family:inherit;font-size:13.5px;font-weight:600;
+    color:var(--accent);cursor:pointer;flex:none;
+  }
+  .link-btn:hover{text-decoration:underline;}
+
+  .row-between{display:flex;align-items:center;justify-content:space-between;}
+  .forgot{font-size:13px;color:var(--accent);text-decoration:none;}
+  .forgot:hover{text-decoration:underline;}
+
+  .pw-error{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    background:var(--danger-soft);
+    color:var(--danger);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:13px;
+  }
+  .pw-error svg{flex:none;margin-top:1px;}
+
+  .privacy-note{
+    margin-top:2px;
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+  .privacy-note svg{flex:none;color:var(--accent);margin-top:2px;width:14px;height:14px;}
+
+  .legal{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    text-align:center;
+    line-height:1.6;
+  }
+  .legal a{color:var(--ink-soft);text-decoration:underline;}
+
+  .back-link{
+    text-align:center;
+    font-size:13.5px;
+    color:var(--ink-faint);
+    text-decoration:none;
+  }
+  .back-link:hover{color:var(--accent);}
+
+  .done-icon{
+    width:44px;height:44px;
+    border-radius:12px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .done-icon svg{width:22px;height:22px;}
+  .step-done h1{margin-top:16px;}
+  .step-done .sub{margin-top:10px;}
+  .btn-quiet{
+    margin-top:22px;
+    background:transparent;
+    border:1px solid var(--line-strong);
+    color:var(--ink);
+  }
+  .btn-quiet:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+
+<header class="nav">
+  <div class="nav-row">
+    <a class="wordmark" href="https://claude.ai/code/artifact/56663183-8b6f-43fd-a9d6-71e48831455d"><span class="dot"></span>Viddoc</a>
+    <span class="nav-hint">Noch kein Konto? Einfach E-Mail eingeben.</span>
+  </div>
+</header>
+
+<main>
+  <div class="auth-shell">
+    <div class="card">
+
+      <form id="step-email" class="step" novalidate>
+        <span class="step-eyebrow">Zugang</span>
+        <h1>Anmelden oder Konto erstellen</h1>
+        <p class="sub">Geben Sie Ihre E-Mail-Adresse ein, um fortzufahren.</p>
+        <div class="field">
+          <label for="email-input">E-Mail-Adresse</label>
+          <input id="email-input" type="email" autocomplete="email" placeholder="sie@beispiel.ch" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Weiter</button>
+        <p class="hint">Prototyp-Tipp: <code>demo@viddoc.ch</code> zeigt den Anmelde-Ablauf, jede andere Adresse den Registrierungs-Ablauf.</p>
+      </form>
+
+      <form id="step-password" class="step" novalidate hidden>
+        <span class="step-eyebrow" id="pw-eyebrow">Zugang</span>
+        <h1 id="pw-heading">Willkommen zurück</h1>
+        <p class="sub" id="pw-sub">Geben Sie Ihr Passwort ein, um sich anzumelden.</p>
+
+        <div class="email-chip">
+          <span id="email-chip-text"></span>
+          <button type="button" class="link-btn" id="change-email">Ändern</button>
+        </div>
+
+        <div class="field">
+          <div class="row-between">
+            <label for="pw-input" style="margin-bottom:0;">Passwort</label>
+            <a class="forgot" href="#" id="forgot-link">Passwort vergessen?</a>
+          </div>
+          <input id="pw-input" type="password" autocomplete="current-password" required style="margin-top:7px;">
+        </div>
+
+        <div class="field" id="pw-confirm-field" hidden>
+          <label for="pw-confirm-input">Passwort bestätigen</label>
+          <input id="pw-confirm-input" type="password" autocomplete="new-password">
+        </div>
+
+        <div class="pw-error" id="pw-error" hidden role="alert">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <span>Die Passwörter stimmen nicht überein.</span>
+        </div>
+
+        <div class="privacy-note" id="signup-note" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6l7-3z"/></svg>
+          <span>Ihre Daten werden nach Swiss Code auf Schweizer Servern gespeichert und nicht weitergegeben.</span>
+        </div>
+
+        <button class="btn btn-primary" type="submit" id="pw-submit">Anmelden</button>
+      </form>
+
+      <div id="step-done" class="step step-done" hidden style="text-align:center;">
+        <div class="done-icon" style="margin:0 auto;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h1 id="done-heading">Angemeldet</h1>
+        <p class="sub" id="done-sub">Prototyp-Hinweis: In der fertigen App würden Sie jetzt zu Ihrem Viddoc Dashboard weitergeleitet.</p>
+        <button class="btn btn-quiet" type="button" id="restart">Zurück zum Anfang</button>
+      </div>
+
+    </div>
+
+    <p class="legal">Mit der Fortsetzung akzeptieren Sie die <a href="#">Nutzungsbedingungen</a> und die <a href="#">Datenschutzerklärung</a> von Viddoc.</p>
+    <a class="back-link" href="https://claude.ai/code/artifact/56663183-8b6f-43fd-a9d6-71e48831455d">← Zurück zur Startseite</a>
+  </div>
+</main>
+
+<script>
+  (function(){
+    var DEMO_EXISTING = ['demo@viddoc.ch', 'test@viddoc.ch'];
+
+    var stepEmail = document.getElementById('step-email');
+    var stepPassword = document.getElementById('step-password');
+    var stepDone = document.getElementById('step-done');
+
+    var emailInput = document.getElementById('email-input');
+    var emailChipText = document.getElementById('email-chip-text');
+    var changeEmailBtn = document.getElementById('change-email');
+
+    var pwHeading = document.getElementById('pw-heading');
+    var pwSub = document.getElementById('pw-sub');
+    var pwSubmit = document.getElementById('pw-submit');
+    var forgotLink = document.getElementById('forgot-link');
+    var confirmField = document.getElementById('pw-confirm-field');
+    var confirmInput = document.getElementById('pw-confirm-input');
+    var signupNote = document.getElementById('signup-note');
+    var pwError = document.getElementById('pw-error');
+    var pwInput = document.getElementById('pw-input');
+
+    var doneHeading = document.getElementById('done-heading');
+    var doneSub = document.getElementById('done-sub');
+    var restartBtn = document.getElementById('restart');
+
+    var isExisting = false;
+
+    function showStep(step){
+      [stepEmail, stepPassword, stepDone].forEach(function(s){ s.hidden = (s !== step); });
+    }
+
+    stepEmail.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = emailInput.value.trim();
+      if(!email) return;
+      isExisting = DEMO_EXISTING.indexOf(email.toLowerCase()) !== -1;
+      emailChipText.textContent = email;
+
+      if(isExisting){
+        pwHeading.textContent = 'Willkommen zurück';
+        pwSub.textContent = 'Geben Sie Ihr Passwort ein, um sich anzumelden.';
+        pwSubmit.textContent = 'Anmelden';
+        forgotLink.hidden = false;
+        confirmField.hidden = true;
+        signupNote.hidden = true;
+      } else {
+        pwHeading.textContent = 'Konto erstellen';
+        pwSub.textContent = 'Wählen Sie ein Passwort für Ihr neues Viddoc-Konto.';
+        pwSubmit.textContent = 'Konto erstellen';
+        forgotLink.hidden = true;
+        confirmField.hidden = false;
+        signupNote.hidden = false;
+      }
+      pwError.hidden = true;
+      pwInput.value = '';
+      confirmInput.value = '';
+      showStep(stepPassword);
+      pwInput.focus();
+    });
+
+    changeEmailBtn.addEventListener('click', function(){
+      showStep(stepEmail);
+      emailInput.focus();
+    });
+
+    stepPassword.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!isExisting && pwInput.value !== confirmInput.value){
+        pwError.hidden = false;
+        return;
+      }
+      pwError.hidden = true;
+      doneHeading.textContent = isExisting ? 'Angemeldet' : 'Konto erstellt';
+      showStep(stepDone);
+    });
+
+    restartBtn.addEventListener('click', function(){
+      stepEmail.reset();
+      stepPassword.reset();
+      showStep(stepEmail);
+      emailInput.focus();
+    });
+  })();
+</script>
+

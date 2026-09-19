@@ -1,0 +1,508 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>upload</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #EDF0F4;
+    --surface: #FFFFFF;
+    --surface-2: #F6F8FA;
+    --ink: #141D28;
+    --ink-2: #4A586A;
+    --ink-3: #6E7C8D;
+    --line: #D9DFE7;
+    --line-strong: #B4BFCC;
+    --accent: #C81E68;
+    --btn: #141D28;
+    --btn-ink: #FFFFFF;
+    --focus: #2F6FEB;
+
+    /* Screenshot der aufgenommenen Anwendung: bleibt in beiden Themes hell */
+    --m-bg: #FFFFFF;
+    --m-bar: #E9EDF2;
+    --m-line: #D5DCE4;
+    --m-ink: #1D2733;
+    --m-mute: #8592A2;
+    --m-side: #243044;
+    --m-side-ink: #C9D3E0;
+    --m-primary: #2F6FEB;
+    --m-field: #F3F6F9;
+    --m-click: #E0246F;
+
+    --f-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --f-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E141B;
+      --surface: #161E27;
+      --surface-2: #1B2530;
+      --ink: #E8EDF2;
+      --ink-2: #A9B5C2;
+      --ink-3: #8794A2;
+      --line: #26323F;
+      --line-strong: #3A4959;
+      --accent: #FF5C9C;
+      --btn: #E8EDF2;
+      --btn-ink: #0E141B;
+      --focus: #7AA7FF;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E141B;
+    --surface: #161E27;
+    --surface-2: #1B2530;
+    --ink: #E8EDF2;
+    --ink-2: #A9B5C2;
+    --ink-3: #8794A2;
+    --line: #26323F;
+    --line-strong: #3A4959;
+    --accent: #FF5C9C;
+    --btn: #E8EDF2;
+    --btn-ink: #0E141B;
+    --focus: #7AA7FF;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 16px/1.6 var(--f-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p { margin: 0; }
+  h1, h3 { font-family: var(--f-display); text-wrap: balance; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .wrap { max-width: 880px; margin-inline: auto; padding-inline: 16px; }
+
+  /* Kopfzeile */
+  .top { border-bottom: 1px solid var(--line); background: var(--surface); }
+  .top .wrap { display: flex; flex-wrap: wrap; align-items: center; column-gap: 24px; row-gap: 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 700 1.2rem/1 var(--f-display); letter-spacing: -0.01em; padding-block: 16px; }
+  .brand svg { width: 26px; height: 26px; }
+  .tag { margin-left: auto; font: 500 0.72rem/1 var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--line-strong); border-radius: 4px; padding: 6px 8px; }
+  .stepper { display: flex; gap: 4px; order: 3; width: 100%; overflow-x: auto; }
+  .stepper button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 12px 12px; cursor: pointer; color: var(--ink-3); font-weight: 500; white-space: nowrap; }
+  .stepper button b { font: 500 0.8rem var(--f-mono); margin-right: 8px; }
+  .stepper button:hover { color: var(--ink); }
+  .stepper button[aria-current="step"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  @media (min-width: 720px) {
+    .stepper { order: 0; width: auto; margin-left: 8px; }
+    .tag { order: 4; }
+  }
+
+  main.wrap { padding-block: 40px 72px; }
+  .lead { color: var(--ink-2); max-width: 62ch; margin-top: 8px; }
+  h1 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem); line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; padding: 11px 18px; border-radius: 6px; border: 1px solid var(--btn); background: var(--btn); color: var(--btn-ink); cursor: pointer; }
+  .btn:hover { opacity: 0.88; }
+  .btn.sec { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+  .btn.sec:hover { background: var(--surface-2); opacity: 1; }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* 1 – Hochladen */
+  #v-upload { max-width: 640px; }
+  .drop { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; margin-top: 28px; padding: 28px 16px; text-align: center; background: var(--surface); border: 2px dashed var(--line-strong); border-radius: 8px; cursor: pointer; }
+  .drop:hover { border-color: var(--ink-3); }
+  .drop svg { width: 28px; height: 28px; color: var(--ink-3); }
+  .drop strong { font-weight: 600; }
+  .drop small { color: var(--ink-3); font-size: 0.85rem; }
+  .file { display: flex; align-items: center; gap: 14px; margin-top: 12px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .thumb { flex: none; position: relative; width: 84px; aspect-ratio: 16 / 9; background: #1D2733; border-radius: 4px; display: grid; place-items: center; color: #fff; }
+  .thumb svg { width: 18px; height: 18px; }
+  .thumb span { position: absolute; right: 4px; bottom: 3px; font: 500 0.62rem var(--f-mono); }
+  .file-meta { min-width: 0; }
+  .file-meta b { display: block; font-weight: 600; overflow-wrap: anywhere; }
+  .file-meta span { font: 400 0.8rem var(--f-mono); color: var(--ink-3); }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-top: 22px; }
+  .field label { font-weight: 600; font-size: 0.9rem; }
+  .field input { font: inherit; padding: 10px 12px; background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 6px; width: 100%; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+  /* 2 – Verarbeiten */
+  #v-process { max-width: 640px; }
+  .bar { height: 6px; background: var(--line); border-radius: 3px; margin-top: 28px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--ink); }
+  #pstatus { margin-top: 10px; font: 400 0.82rem var(--f-mono); color: var(--ink-3); }
+  .phases { list-style: none; margin: 20px 0 0; padding: 0; border-top: 1px solid var(--line); }
+  .phases li { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .phases .pt { font-weight: 500; }
+  .phases .pd { font: 400 0.8rem var(--f-mono); color: var(--ink-3); text-align: right; }
+  .st { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; }
+  .st svg { width: 12px; height: 12px; display: none; }
+  li[data-s="pending"] { color: var(--ink-3); }
+  li[data-s="pending"] .st { border: 2px solid var(--line-strong); }
+  li[data-s="active"] .st { border: 2px solid var(--line-strong); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
+  li[data-s="done"] .st { background: var(--ink); color: var(--bg); }
+  li[data-s="done"] .st svg { display: block; }
+  li:not([data-s="done"]) .pd { visibility: hidden; }
+  .note { margin-top: 20px; font-size: 0.85rem; color: var(--ink-3); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* 3 – Dokument */
+  .doc-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px 24px; }
+  .doc-head > div:first-child { flex: 1 1 420px; min-width: 0; }
+  .doc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 14px; font: 400 0.78rem var(--f-mono); color: var(--ink-3); }
+  #d-summary { margin-top: 20px; max-width: 65ch; color: var(--ink-2); }
+  [contenteditable] { border-radius: 4px; outline-offset: 4px; }
+  [contenteditable]:hover { outline: 1px dashed var(--line-strong); }
+  [contenteditable]:focus { outline: 2px solid var(--focus); }
+  .steps { list-style: none; margin: 44px 0 0; padding: 0; border-top: 1px solid var(--line); padding-top: 36px; }
+  .step { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 16px; padding-bottom: 40px; }
+  .step:last-child { padding-bottom: 0; }
+  .step:not(:last-child)::before { content: ""; position: absolute; left: 15px; top: 40px; bottom: 8px; width: 2px; background: var(--line); }
+  .num { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font: 500 0.9rem var(--f-mono); }
+  .step-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .step h3 { font-size: 1.2rem; line-height: 1.3; font-weight: 600; padding-top: 3px; }
+  .step p { margin-top: 6px; max-width: 65ch; color: var(--ink-2); }
+  .tools { display: flex; flex: none; gap: 2px; }
+  .ic { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: transparent; color: var(--ink-3); border-radius: 6px; cursor: pointer; }
+  .ic:hover:not(:disabled) { background: var(--surface); color: var(--ink); }
+  .ic:disabled { opacity: 0.3; cursor: default; }
+  .ic svg { width: 16px; height: 16px; }
+
+  /* Screenshot-Attrappe */
+  .shot { position: relative; container-type: inline-size; margin: 16px 0 0; max-width: 720px; }
+  .chip { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 4px; background: rgba(20, 29, 40, 0.85); color: #fff; font: 500 0.72rem var(--f-mono); }
+  .chip svg { width: 9px; height: 9px; }
+  .mock { display: flex; flex-direction: column; aspect-ratio: 16 / 9; overflow: hidden; background: var(--m-bg); color: var(--m-ink); border: 1px solid var(--line-strong); border-radius: 6px; font: 400 1.8cqw/1.3 var(--f-body); }
+  .m-bar { display: flex; align-items: center; gap: 0.8cqw; padding: 1cqw 1.6cqw; background: var(--m-bar); border-bottom: 1px solid var(--m-line); color: var(--m-mute); }
+  .m-bar i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: var(--m-line); }
+  .m-bar span { margin-left: 1.2cqw; }
+  .m-body { flex: 1; display: grid; grid-template-columns: 22% minmax(0, 1fr); min-height: 0; }
+  .m-side { background: var(--m-side); color: var(--m-side-ink); padding: 1.6cqw 0; }
+  .m-logo { padding: 0 1.8cqw 1.6cqw; font-weight: 600; color: #fff; }
+  .m-nav { position: relative; padding: 1cqw 1.8cqw; }
+  .m-nav.on { background: rgba(255, 255, 255, 0.1); color: #fff; }
+  .m-main { position: relative; padding: 2.2cqw 2.6cqw 3cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
+  .m-h { font-size: 2.3cqw; font-weight: 600; }
+  .m-row { display: flex; align-items: center; justify-content: space-between; gap: 2cqw; }
+  .m-btn { position: relative; padding: 1cqw 2cqw; border-radius: 0.6cqw; background: var(--m-primary); color: #fff; font-weight: 500; white-space: nowrap; }
+  .m-btn.ghost { background: transparent; color: var(--m-mute); border: 1px solid var(--m-line); }
+  .m-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6cqw; }
+  .m-tiles div { padding: 1.4cqw 1.6cqw; border: 1px solid var(--m-line); border-radius: 0.8cqw; color: var(--m-mute); }
+  .m-tiles b { display: block; margin-top: 0.4cqw; font-size: 2.2cqw; color: var(--m-ink); }
+  .m-lines { display: grid; gap: 1.2cqw; }
+  .m-lines i { display: block; height: 1.4cqw; border-radius: 1cqw; background: var(--m-field); }
+  .m-lines i:nth-child(2) { width: 82%; }
+  .m-lines i:nth-child(3) { width: 64%; }
+  .m-tr { display: grid; grid-template-columns: 1.4fr 1.6fr 1fr 0.9fr; gap: 1.6cqw; padding: 1.1cqw 0; border-bottom: 1px solid var(--m-line); align-items: center; }
+  .m-tr.h { color: var(--m-mute); font-size: 1.5cqw; text-transform: uppercase; letter-spacing: 0.06em; }
+  .m-pill { justify-self: start; padding: 0.2cqw 1.2cqw; border-radius: 2cqw; background: var(--m-field); color: var(--m-mute); font-size: 1.5cqw; }
+  .m-pill.ok { background: #DDF3E6; color: #1E7A45; }
+  .m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4cqw 2.4cqw; }
+  .m-f { position: relative; }
+  .m-f.open { z-index: 3; }
+  .m-f label { display: block; font-size: 1.5cqw; color: var(--m-mute); margin-bottom: 0.4cqw; }
+  .m-box { position: relative; padding: 1cqw 1.4cqw; min-height: 4.2cqw; border: 1px solid var(--m-line); border-radius: 0.6cqw; background: var(--m-field); }
+  .m-box.ph { color: var(--m-mute); }
+  .caret { position: absolute; right: 1.4cqw; top: 50%; width: 0; height: 0; margin-top: -0.3cqw; border-inline: 0.7cqw solid transparent; border-top: 0.8cqw solid var(--m-mute); }
+  .m-dd { position: absolute; top: calc(100% + 0.4cqw); left: 0; right: 0; background: var(--m-bg); border: 1px solid var(--m-line); border-radius: 0.6cqw; box-shadow: 0 1cqw 3cqw rgba(20, 29, 40, 0.18); overflow: hidden; }
+  .m-dd div { position: relative; padding: 1.1cqw 1.4cqw; }
+  .m-dd div.target { background: #EAF1FE; }
+  .m-foot { display: flex; justify-content: flex-end; gap: 1.4cqw; margin-top: auto; }
+  .target { position: relative; }
+  .click { position: absolute; left: 74%; top: 56%; width: 4.6cqw; height: 4.6cqw; margin: -2.3cqw 0 0 -2.3cqw; border-radius: 50%; border: 0.45cqw solid var(--m-click); background: rgba(224, 36, 111, 0.16); pointer-events: none; z-index: 5; }
+  .click::after { content: ""; position: absolute; inset: -0.9cqw; border-radius: 50%; border: 0.25cqw solid var(--m-click); opacity: 0.45; animation: ping 1.8s ease-out infinite; }
+  @keyframes ping { from { transform: scale(0.7); opacity: 0.6; } to { transform: scale(1.25); opacity: 0; } }
+
+  /* Hinweis-Toast */
+  #toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 6px; background: var(--ink); color: var(--bg); font-size: 0.9rem; z-index: 20; }
+
+  @media (prefers-reduced-motion: reduce) {
+    li[data-s="active"] .st, .click::after { animation: none; }
+  }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10.5" fill="none" stroke="var(--accent)" stroke-width="2.5"/><circle cx="13" cy="13" r="3.6" fill="var(--accent)"/></svg>
+      Viddoc
+    </div>
+    <nav class="stepper" aria-label="Ablauf">
+      <button type="button" data-go="upload" aria-current="step"><b>1</b>Hochladen</button>
+      <button type="button" data-go="process"><b>2</b>Verarbeiten</button>
+      <button type="button" data-go="doc"><b>3</b>Dokument</button>
+    </nav>
+    <span class="tag">Prototyp · Beispieldaten</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="v-upload" aria-labelledby="h-upload">
+    <h1 id="h-upload">Video hochladen</h1>
+    <p class="lead">Lade eine Bildschirmaufnahme eines Arbeitsprozesses hoch. Viddoc macht daraus eine Anleitung mit einzelnen Schritten und Screenshots.</p>
+
+    <button type="button" class="drop" id="drop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+      <strong>Video hierher ziehen oder auswählen</strong>
+      <small>MP4, MOV oder WebM · bis 500 MB</small>
+    </button>
+
+    <div class="file">
+      <div class="thumb">
+        <svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M2 1l7 4-7 4z"/></svg>
+        <span>02:41</span>
+      </div>
+      <div class="file-meta">
+        <b>rechnung-erfassen.mp4</b>
+        <span>48 MB · 1920 × 1080 · hochgeladen</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="f-title">Titel des Prozesses</label>
+      <input id="f-title" type="text" value="Rechnung in einer ERP-Anwendung erfassen">
+    </div>
+    <div class="field">
+      <label for="f-app">Anwendung im Video</label>
+      <input id="f-app" type="text" value="Kredi-ERP, Modul Kreditoren">
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn" id="go-process">Dokument erstellen</button>
+    </div>
+  </section>
+
+  <section id="v-process" aria-labelledby="h-process" hidden>
+    <h1 id="h-process">Dokument wird erstellt</h1>
+    <p class="lead">Das Video wird analysiert und in einzelne Schritte zerlegt.</p>
+    <div class="bar" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div>
+    <p id="pstatus" role="status"></p>
+    <ol class="phases" id="phases"></ol>
+    <p class="note">Simulation: Im Prototyp wird kein Video verarbeitet. Der Ablauf zeigt nur, wie die Verarbeitung aussehen könnte.</p>
+    <div class="actions">
+      <button type="button" class="btn sec" data-go="upload">Abbrechen</button>
+    </div>
+  </section>
+
+  <section id="v-doc" aria-labelledby="d-title" hidden>
+    <div class="doc-head">
+      <div>
+        <h1 id="d-title" contenteditable="true" spellcheck="false"></h1>
+        <div class="meta" id="d-meta"></div>
+      </div>
+      <div class="doc-actions">
+        <button type="button" class="btn sec" id="copy-md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          Als Markdown kopieren
+        </button>
+        <button type="button" class="btn sec" data-go="upload">Neues Video</button>
+      </div>
+    </div>
+    <p id="d-summary" contenteditable="true" spellcheck="false"></p>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+</main>
+
+<div id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* ---------- Beispieldaten ---------- */
+  const doc = {
+    title: 'Rechnung in einer ERP-Anwendung erfassen',
+    app: 'Kredi-ERP, Modul Kreditoren',
+    summary: 'Diese Anleitung zeigt, wie eine Lieferantenrechnung im Modul «Kreditoren» erfasst und gebucht wird. Der Ablauf dauert rund zwei Minuten. Du brauchst dafür den Beleg der Rechnung.'
+  };
+  const steps = [
+    { t: '00:08', kind: 'menu', title: 'Menü «Kreditoren» öffnen', text: 'Klicke in der linken Navigation auf «Kreditoren». Die Rechnungsübersicht öffnet sich.' },
+    { t: '00:21', kind: 'list', title: '«Neue Rechnung» wählen', text: 'Klicke oben rechts auf «Neue Rechnung». Das Erfassungsformular erscheint.' },
+    { t: '00:37', kind: 'supplier', title: 'Lieferanten auswählen', text: 'Öffne im Feld «Lieferant» die Liste und wähle «Muster AG». Adresse und Zahlungsbedingungen werden automatisch übernommen.' },
+    { t: '01:12', kind: 'amounts', title: 'Rechnungsdaten eingeben', text: 'Erfasse Rechnungsnummer, Datum und Fälligkeit gemäss Beleg. Trage danach den Betrag von CHF 1’842.30 im Feld «Betrag» ein.' },
+    { t: '02:29', kind: 'book', title: 'Rechnung buchen', text: 'Speichere die Rechnung mit «Buchen» unten rechts. Sie erscheint danach in der Übersicht mit dem Status «Gebucht».' }
+  ];
+  const PHASES = [
+    { t: 'Video analysieren', d: '02:41 Min., 1920 × 1080', ms: 1300 },
+    { t: 'Prozessschritte erkennen', d: '5 Schritte erkannt', ms: 1800 },
+    { t: 'Screenshots extrahieren', d: '5 Screenshots bei Klicks', ms: 1500 },
+    { t: 'Dokument formulieren', d: 'Texte erstellt', ms: 1500 }
+  ];
+
+  /* ---------- Screenshot-Attrappen der Beispielanwendung ---------- */
+  const K = '<i class="click"></i>';
+  const NAV = ['Übersicht', 'Kreditoren', 'Debitoren', 'Buchhaltung', 'Berichte'];
+  const side = (on, mark) => `<aside class="m-side"><div class="m-logo">Kredi-ERP</div>${NAV.map(n =>
+    `<div class="m-nav${n === on ? ' on' : ''}${n === mark ? ' target' : ''}">${n}${n === mark ? K : ''}</div>`).join('')}</aside>`;
+  const win = (title, on, mark, main) => `<div class="mock"><div class="m-bar"><i></i><i></i><i></i><span>Kredi-ERP – ${title}</span></div><div class="m-body">${side(on, mark)}<div class="m-main">${main}</div></div></div>`;
+  const fld = (label, val, o = {}) => `<div class="m-f${o.menu ? ' open' : ''}"><label>${label}</label><div class="m-box${val ? '' : ' ph'}${o.target ? ' target' : ''}">${val || o.ph || '&nbsp;'}${o.target ? K : ''}${o.caret ? '<b class="caret"></b>' : ''}</div>${o.menu || ''}</div>`;
+  const dd = `<div class="m-dd"><div>Alpina Logistik AG</div><div class="target">Muster AG${K}</div><div>Bürocenter GmbH</div></div>`;
+  const form = kind => {
+    const f = kind !== 'supplier';
+    return `<div class="m-h">Neue Rechnung</div><div class="m-grid">
+      ${fld('Lieferant', f ? 'Muster AG' : '', { ph: 'Lieferant wählen …', caret: 1, menu: kind === 'supplier' ? dd : '' })}
+      ${fld('Rechnungsnummer', f ? 'RE-2026-0412' : '')}
+      ${fld('Rechnungsdatum', f ? '14.09.2026' : '')}
+      ${fld('Fälligkeitsdatum', f ? '14.10.2026' : '')}
+      ${fld('Betrag (CHF)', f ? '1’842.30' : '', { target: kind === 'amounts' })}
+      ${fld('MWST', f ? '8.1 %' : '')}
+    </div><div class="m-foot"><span class="m-btn ghost">Abbrechen</span><span class="m-btn${kind === 'book' ? ' target' : ''}">Buchen${kind === 'book' ? K : ''}</span></div>`;
+  };
+  const row = (nr, lief, betrag, st, ok) => `<div class="m-tr"><span>${nr}</span><span>${lief}</span><span>${betrag}</span><span class="m-pill${ok ? ' ok' : ''}">${st}</span></div>`;
+  const SHOTS = {
+    menu: () => win('Übersicht', 'Übersicht', 'Kreditoren', `<div class="m-h">Übersicht</div>
+      <div class="m-tiles"><div>Offene Posten<b>CHF 48’210.50</b></div><div>Fällig diese Woche<b>CHF 6’480.00</b></div><div>Gebucht im September<b>37 Rechnungen</b></div></div>
+      <div class="m-lines"><i></i><i></i><i></i></div>`),
+    list: () => win('Kreditoren', 'Kreditoren', null, `<div class="m-row"><div class="m-h">Kreditoren</div><span class="m-btn target">Neue Rechnung${K}</span></div>
+      <div><div class="m-tr h"><span>Nr.</span><span>Lieferant</span><span>Betrag</span><span>Status</span></div>
+      ${row('RE-2026-0409', 'Alpina Logistik AG', '3’120.00', 'Gebucht', 1)}${row('RE-2026-0410', 'Bürocenter GmbH', '218.90', 'Gebucht', 1)}${row('RE-2026-0411', 'Muster AG', '964.10', 'Offen', 0)}</div>`),
+    supplier: () => win('Neue Rechnung', 'Kreditoren', null, form('supplier')),
+    amounts: () => win('Neue Rechnung', 'Kreditoren', null, form('amounts')),
+    book: () => win('Neue Rechnung', 'Kreditoren', null, form('book'))
+  };
+
+  /* ---------- Ansichten ---------- */
+  const views = ['upload', 'process', 'doc'];
+  let timer = null;
+
+  function show(v) {
+    if (v !== 'process') clearTimeout(timer);
+    views.forEach(n => { $('#v-' + n).hidden = n !== v; });
+    $$('.stepper button').forEach(b => b.setAttribute('aria-current', b.dataset.go === v ? 'step' : 'false'));
+    window.scrollTo({ top: 0 });
+  }
+  function go(v) {
+    if (v === 'process') runProcessing();
+    else if (v === 'doc') { renderDoc(); show('doc'); }
+    else show('upload');
+  }
+
+  const ICON = {
+    up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
+    del: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>',
+    play: '<svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M2 1l7 4-7 4z"/></svg>',
+    check: '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5l2.3 2.3 4.7-5"/></svg>'
+  };
+
+  /* ---------- Verarbeitung (Simulation) ---------- */
+  function runProcessing() {
+    clearTimeout(timer);
+    doc.title = $('#f-title').value.trim() || doc.title;
+    doc.app = $('#f-app').value.trim() || doc.app;
+    show('process');
+    const list = $('#phases'), bar = $('#bar'), status = $('#pstatus'), pb = $('.bar');
+    list.innerHTML = PHASES.map(p => `<li data-s="pending"><span class="st">${ICON.check}</span><span class="pt">${p.t}</span><span class="pd">${p.d}</span></li>`).join('');
+    bar.style.transition = 'none';
+    bar.style.width = '0';
+    pb.setAttribute('aria-valuenow', '0');
+    void bar.offsetWidth;
+    const items = $$('li', list);
+    const tick = i => {
+      if (i >= PHASES.length) {
+        status.textContent = 'Fertig';
+        timer = setTimeout(() => go('doc'), 600);
+        return;
+      }
+      items[i].dataset.s = 'active';
+      status.textContent = `Schritt ${i + 1} von ${PHASES.length}`;
+      bar.style.transition = `width ${PHASES[i].ms}ms linear`;
+      bar.style.width = ((i + 1) / PHASES.length * 100) + '%';
+      timer = setTimeout(() => {
+        items[i].dataset.s = 'done';
+        pb.setAttribute('aria-valuenow', String(Math.round((i + 1) / PHASES.length * 100)));
+        tick(i + 1);
+      }, PHASES[i].ms);
+    };
+    tick(0);
+  }
+
+  /* ---------- Dokument ---------- */
+  function renderDoc() {
+    $('#d-title').textContent = doc.title;
+    $('#d-summary').textContent = doc.summary;
+    $('#d-meta').innerHTML = `<span>Quelle: rechnung-erfassen.mp4</span><span>02:41 Min.</span><span>${steps.length} ${steps.length === 1 ? 'Schritt' : 'Schritte'}</span><span>${esc(doc.app)}</span><span>Erstellt am 18.09.2026</span>`;
+    $('#steps').innerHTML = steps.map((s, i) => `
+      <li class="step" data-i="${i}">
+        <div class="num">${i + 1}</div>
+        <div>
+          <div class="step-head">
+            <h3 contenteditable="true" spellcheck="false" data-f="title">${esc(s.title)}</h3>
+            <div class="tools">
+              <button type="button" class="ic" data-act="up" title="Nach oben" aria-label="Schritt nach oben" ${i === 0 ? 'disabled' : ''}>${ICON.up}</button>
+              <button type="button" class="ic" data-act="down" title="Nach unten" aria-label="Schritt nach unten" ${i === steps.length - 1 ? 'disabled' : ''}>${ICON.down}</button>
+              <button type="button" class="ic" data-act="del" title="Schritt löschen" aria-label="Schritt löschen" ${steps.length === 1 ? 'disabled' : ''}>${ICON.del}</button>
+            </div>
+          </div>
+          <p contenteditable="true" spellcheck="false" data-f="text">${esc(s.text)}</p>
+          <figure class="shot" aria-label="Screenshot bei ${s.t}">${SHOTS[s.kind]()}<span class="chip">${ICON.play}${s.t}</span></figure>
+        </div>
+      </li>`).join('');
+  }
+
+  /* ---------- Ereignisse ---------- */
+  document.addEventListener('click', e => {
+    const nav = e.target.closest('[data-go]');
+    if (nav) go(nav.dataset.go);
+  });
+  $('#go-process').addEventListener('click', () => go('process'));
+
+  const drop = $('#drop');
+  const hint = () => toast('Im Prototyp ist bereits ein Beispielvideo geladen.');
+  drop.addEventListener('click', hint);
+  drop.addEventListener('dragover', e => e.preventDefault());
+  drop.addEventListener('drop', e => { e.preventDefault(); hint(); });
+
+  const stepsEl = $('#steps');
+  stepsEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const i = +b.closest('.step').dataset.i;
+    if (b.dataset.act === 'up' && i > 0) [steps[i - 1], steps[i]] = [steps[i], steps[i - 1]];
+    if (b.dataset.act === 'down' && i < steps.length - 1) [steps[i + 1], steps[i]] = [steps[i], steps[i + 1]];
+    if (b.dataset.act === 'del' && steps.length > 1) steps.splice(i, 1);
+    renderDoc();
+  });
+  stepsEl.addEventListener('input', e => {
+    const f = e.target.dataset.f;
+    if (f) steps[+e.target.closest('.step').dataset.i][f] = e.target.textContent;
+  });
+  $('#d-title').addEventListener('input', e => { doc.title = e.target.textContent; });
+  $('#d-summary').addEventListener('input', e => { doc.summary = e.target.textContent; });
+
+  // Einfacher Text beim Einfügen; Enter beendet die Titelzeilen
+  document.addEventListener('paste', e => {
+    if (!e.target.isContentEditable) return;
+    e.preventDefault();
+    document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text/plain'));
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.isContentEditable) { e.preventDefault(); e.target.blur(); }
+  });
+
+  $('#copy-md').addEventListener('click', async () => {
+    const md = `# ${doc.title}\n\n${doc.summary}\n\n` + steps.map((s, i) =>
+      `## ${i + 1}. ${s.title}\n\n${s.text}\n\n_Screenshot bei ${s.t}_\n`).join('\n');
+    try {
+      await navigator.clipboard.writeText(md);
+      toast('Markdown kopiert');
+    } catch (err) {
+      toast('Kopieren ist in dieser Ansicht nicht möglich.');
+    }
+  });
+
+  let toastTimer = null;
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.hidden = true; }, 2600);
+  }
+
+  renderDoc();
+})();
+</script>

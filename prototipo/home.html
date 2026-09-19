@@ -1,0 +1,1051 @@
+<meta charset="utf-8">
+<title>home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F5F0;
+    --surface:#FFFFFF;
+    --surface-raised:#FFFFFF;
+    --ink:#171B1F;
+    --ink-soft:#565F6B;
+    --ink-faint:#8A9099;
+    --accent:#1751D6;
+    --accent-strong:#0F3DA8;
+    --accent-soft:#E7EDFB;
+    --accent-soft-2:#D3DFF7;
+    --line:#E6E1D6;
+    --line-strong:#D4CEC0;
+    --shadow: 0 1px 2px rgba(23,27,31,0.04), 0 12px 28px -12px rgba(23,27,31,0.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171B;
+      --surface:#1B1F24;
+      --surface-raised:#20252B;
+      --ink:#F1EFE9;
+      --ink-soft:#AEB4BC;
+      --ink-faint:#767D86;
+      --accent:#6E97F2;
+      --accent-strong:#8FB0F7;
+      --accent-soft:#212B42;
+      --accent-soft-2:#293659;
+      --line:#2A2F36;
+      --line-strong:#383F48;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 16px 32px -14px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171B;
+    --surface:#1B1F24;
+    --surface-raised:#20252B;
+    --ink:#F1EFE9;
+    --ink-soft:#AEB4BC;
+    --ink-faint:#767D86;
+    --accent:#6E97F2;
+    --accent-strong:#8FB0F7;
+    --accent-soft:#212B42;
+    --accent-soft-2:#293659;
+    --line:#2A2F36;
+    --line-strong:#383F48;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 16px 32px -14px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Sora','Helvetica Neue',Arial,sans-serif;
+    color:var(--ink);
+    margin:0;
+    text-wrap:balance;
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  .mono{
+    font-family:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    padding:18px 32px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .wordmark{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .wordmark .dot{
+    width:9px;height:9px;border-radius:2px;
+    background:var(--accent);
+    flex:none;
+  }
+  .nav-links{
+    display:flex;
+    gap:32px;
+    list-style:none;
+    margin:0;padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:14.5px;
+    font-weight:500;
+    color:var(--ink-soft);
+  }
+  .nav-links a:hover{color:var(--ink);}
+  .nav-actions{display:flex;align-items:center;gap:18px;}
+  .nav-actions .ghost-link{
+    font-size:14.5px;font-weight:500;color:var(--ink-soft);text-decoration:none;
+    display:none;
+  }
+  .btn{
+    font-family:inherit;
+    font-size:14.5px;
+    font-weight:600;
+    border-radius:9px;
+    padding:11px 20px;
+    border:1px solid transparent;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .btn-primary{
+    background:var(--accent);
+    color:#fff;
+  }
+  .btn-primary:hover{background:var(--accent-strong);}
+  .btn-quiet{
+    background:transparent;
+    color:var(--ink);
+    border-color:var(--line-strong);
+  }
+  .btn-quiet:hover{border-color:var(--accent);color:var(--accent);}
+  .btn-block{width:100%;justify-content:center;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 96px;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(34px, 4.4vw, 52px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    line-height:1.08;
+    margin-top:14px;
+  }
+  .hero .lede{
+    margin-top:20px;
+    font-size:17.5px;
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .hero-cta{
+    margin-top:32px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .trust-line{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size:13.5px;
+    color:var(--ink-faint);
+  }
+  .trust-line svg{flex:none;width:15px;height:15px;color:var(--accent);}
+
+  /* ---- hero visual: 30-Sekunden-Demo, Video -> Anleitung ---- */
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+  .hero-visual{
+    position:relative;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:18px 20px 0;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .hv-chrome{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding-bottom:14px;
+  }
+  .hv-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--accent);font-weight:500;
+  }
+  .hv-toggle{
+    width:28px;height:28px;flex:none;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;border:1px solid var(--line-strong);
+    background:transparent;color:var(--ink-soft);cursor:pointer;
+    transition:border-color .2s ease,color .2s ease;
+  }
+  .hv-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  .hv-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .hv-toggle svg{width:11px;height:11px;}
+  .hv-toggle .ic-play{display:none;}
+  .hero-visual.paused .hv-toggle .ic-play{display:block;}
+  .hero-visual.paused .hv-toggle .ic-pause{display:none;}
+
+  .hv-stage{
+    position:relative;
+    min-height:330px;
+    transition:opacity .7s ease;
+  }
+  .hv-stage.out{opacity:0;}
+  .hv-nofx *{transition:none!important;animation:none!important;}
+  .hv-scene{
+    position:absolute;inset:0 0 14px;
+    display:flex;flex-direction:column;
+    opacity:0;transition:opacity .45s ease;
+    pointer-events:none;
+  }
+  .hv-scene.on{opacity:1;}
+
+  /* Szene 1 — Hochladen */
+  .hv-drop{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    padding:22px 14px;text-align:center;
+    border:2px dashed var(--line-strong);border-radius:12px;
+    transition:border-color .4s ease,background .4s ease;
+  }
+  .hv-drop svg{width:22px;height:22px;color:var(--ink-faint);transition:color .4s ease;}
+  .hv-drop span{font-size:13px;font-weight:500;color:var(--ink-soft);}
+  .hv-drop.filled{border-style:solid;border-color:var(--accent);background:var(--accent-soft);}
+  .hv-drop.filled svg{color:var(--accent);}
+  .hv-file{
+    display:flex;align-items:center;gap:12px;
+    margin-top:14px;padding:10px;
+    border:1px solid var(--line);border-radius:12px;
+    background:var(--surface-raised);
+    opacity:0;transform:translateY(16px);
+    transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .hv-file.on{opacity:1;transform:none;}
+  .hv-vthumb{
+    position:relative;flex:none;width:72px;aspect-ratio:16/9;
+    border-radius:6px;background:#1E2531;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hv-vthumb svg{width:13px;height:13px;}
+  .hv-vthumb em{
+    position:absolute;right:4px;bottom:3px;font-style:normal;
+    font-family:'IBM Plex Mono',monospace;font-size:8.5px;
+  }
+  .hv-fmeta{min-width:0;}
+  .hv-fmeta b{
+    display:block;font-size:13px;font-weight:600;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .hv-fmeta span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-faint);}
+  .hv-cta{
+    position:relative;align-self:flex-start;margin-top:auto;
+    padding:9px 16px;border-radius:9px;
+    background:var(--accent);color:#fff;font-size:13px;font-weight:600;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .4s ease,transform .4s ease;
+  }
+  .hv-cta.on{opacity:1;transform:none;}
+  .hv-cta::after{
+    content:"";position:absolute;inset:-4px;border-radius:13px;
+    border:2px solid var(--accent);opacity:0;
+  }
+  .hv-cta.clicked::after{animation:hvPing .7s ease-out;}
+  @keyframes hvPing{
+    0%{transform:scale(.86);opacity:.75;}
+    100%{transform:scale(1.22);opacity:0;}
+  }
+
+  /* Szene 2 — Erkennen */
+  .hv-pfile{
+    display:flex;align-items:center;gap:8px;
+    font-size:12.5px;color:var(--ink-soft);
+  }
+  .hv-pfile svg{width:13px;height:13px;flex:none;color:var(--ink-faint);}
+  .hv-progress{
+    height:5px;border-radius:3px;background:var(--line);
+    margin:14px 0 6px;overflow:hidden;
+  }
+  .hv-progress i{display:block;height:100%;width:0;border-radius:3px;background:var(--accent);}
+  .hv-phases{list-style:none;margin:10px 0 0;padding:0;}
+  .hv-phases li{
+    display:flex;align-items:center;gap:11px;padding:10px 0;
+    font-size:13px;color:var(--ink-faint);
+    border-bottom:1px solid var(--line);
+    transition:color .3s ease;
+  }
+  .hv-phases li:last-child{border-bottom:0;}
+  .hv-phases li.act{color:var(--ink);}
+  .hv-phases li.done{color:var(--ink-soft);}
+  .hv-dot{
+    flex:none;width:17px;height:17px;border-radius:50%;
+    border:2px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .3s ease,border-color .3s ease;
+  }
+  .hv-dot svg{width:9px;height:9px;color:#fff;opacity:0;transition:opacity .3s ease;}
+  .hv-phases li.act:not(.done) .hv-dot{
+    border-top-color:var(--accent);
+    animation:hvSpin .8s linear infinite;
+  }
+  .hv-phases li.done .hv-dot{background:var(--accent);border-color:var(--accent);}
+  .hv-phases li.done .hv-dot svg{opacity:1;}
+  @keyframes hvSpin{to{transform:rotate(360deg);}}
+
+  /* Szene 3 — Fertiges Dokument (Fenster der Textverarbeitung) */
+  /* Fenster und Papier: feste Farben, folgen nicht dem Theme */
+  .hv-word{
+    flex:1;min-height:0;display:flex;flex-direction:column;
+    border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;
+    background:#fff;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .hv-word.on{opacity:1;transform:none;}
+  .hv-wbar{
+    flex:none;display:flex;align-items:center;gap:5px;
+    padding:6px 10px;background:#2B579A;color:#fff;
+  }
+  .hv-wbar b{width:6px;height:6px;border-radius:2px;background:rgba(255,255,255,.45);}
+  .hv-wbar span{
+    margin-left:5px;font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;letter-spacing:.01em;
+  }
+  .hv-wribbon{
+    flex:none;display:flex;align-items:center;gap:6px;
+    padding:6px 10px;background:#F3F4F6;border-bottom:1px solid #E1E4E8;
+  }
+  .hv-wribbon i{display:block;height:6px;border-radius:2px;background:#C6CCD5;}
+  .hv-wribbon i:nth-child(1){width:16px;}
+  .hv-wribbon i:nth-child(2){width:10px;}
+  .hv-wribbon i:nth-child(3){width:10px;}
+  .hv-wribbon i:nth-child(4){width:22px;margin-left:6px;}
+  .hv-wribbon i:nth-child(5){width:12px;}
+  .hv-wribbon i:nth-child(6){width:18px;margin-left:auto;}
+  .hv-wview{
+    position:relative;flex:1;min-height:0;
+    overflow:hidden;background:#EDEFF2;
+  }
+  .hv-paper{
+    position:relative;
+    margin:0 12px;padding:16px 16px 22px;
+    background:#fff;color:#1E2531;
+    box-shadow:0 1px 5px rgba(20,25,35,.13);
+    transition:transform .9s cubic-bezier(.4,0,.2,1);
+  }
+  .hv-h1{
+    font-family:'Sora',sans-serif;
+    font-size:15px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;
+  }
+  .hv-meta{
+    margin-top:3px;font-family:'IBM Plex Mono',monospace;
+    font-size:9px;color:#79838F;
+  }
+  .hv-rule{height:1px;background:#E1E4E8;margin:10px 0;}
+  .hv-p{font-size:10.5px;line-height:1.6;color:#3C4553;}
+  .hv-sec{margin-top:16px;}
+  .hv-h2{
+    margin-bottom:4px;
+    font-size:11.5px;font-weight:600;line-height:1.35;color:#1E2531;
+  }
+  .hv-h2 em{
+    font-style:normal;font-family:'IBM Plex Mono',monospace;
+    font-size:9px;font-weight:400;color:#79838F;margin-left:6px;
+  }
+  /* Screenshot der aufgenommenen Anwendung */
+  .hv-shot{
+    position:relative;width:100%;aspect-ratio:16/10;
+    margin-top:8px;border-radius:4px;overflow:hidden;
+    background:#fff;border:1px solid #D7DCE3;
+  }
+  .hv-shot span{position:absolute;border-radius:2px;}
+  .sh-side{left:0;top:0;bottom:0;width:24%;border-radius:0;background:#2A3342;}
+  .sh-nav{left:5%;top:34%;width:14%;height:7%;background:#5C6880;}
+  .sh-title{left:31%;width:30%;top:12%;height:10%;background:#AEB8C6;}
+  .sh-btn-a{right:5%;top:11%;width:20%;height:12%;background:#4F7BE8;}
+  .sh-line-a{left:31%;right:6%;top:38%;height:7%;background:#DFE4EB;}
+  .sh-line-b{left:31%;right:26%;top:53%;height:7%;background:#DFE4EB;}
+  .sh-btn-b{right:5%;bottom:9%;width:24%;height:13%;background:#4F7BE8;}
+  /* Schritte 3 und 4 zeigen das Formular statt der Liste */
+  .hv-shot[data-v="form"] .sh-line-a,
+  .hv-shot[data-v="form"] .sh-line-b{
+    background:#fff;border:1px solid #D7DCE3;height:12%;
+  }
+  .hv-shot[data-v="form"] .sh-line-b{right:6%;top:56%;}
+  .hv-shot i{
+    position:absolute;width:9%;aspect-ratio:1;border-radius:50%;
+    border:1.5px solid #1751D6;background:rgba(23,81,214,0.18);
+  }
+  .hv-shot[data-k="1"] i{left:3%;top:31%;}
+  .hv-shot[data-k="2"] i{right:4%;top:7%;}
+  .hv-shot[data-k="3"] i{left:33%;top:36%;}
+  .hv-shot[data-k="4"] i{right:5%;bottom:6%;}
+  /* Bildlaufleiste */
+  .hv-wscroll{
+    position:absolute;top:5px;right:4px;bottom:5px;width:3px;
+    border-radius:2px;background:#DCE0E6;
+  }
+  .hv-wscroll i{
+    position:absolute;left:0;right:0;top:0;height:30%;
+    border-radius:2px;background:#9AA3B0;
+    transition:transform .9s cubic-bezier(.4,0,.2,1);
+  }
+  .hv-done{
+    display:flex;align-items:center;gap:7px;
+    margin-top:auto;padding-top:14px;
+    font-size:12px;color:var(--ink-soft);
+    opacity:0;transform:translateY(6px);
+    transition:opacity .45s ease,transform .45s ease;
+  }
+  .hv-done.on{opacity:1;transform:none;}
+  .hv-done svg{width:13px;height:13px;flex:none;color:var(--accent);}
+
+  /* Szene 4 — Schlussaussage */
+  .hv-claim{margin:auto 0;}
+  .hv-ctext{
+    font-family:'Sora',sans-serif;
+    font-size:21px;font-weight:700;line-height:1.25;letter-spacing:-0.02em;
+    color:var(--ink);text-wrap:balance;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .hv-ctext.on{opacity:1;transform:none;}
+  .hv-csub{
+    display:flex;align-items:center;gap:8px;
+    margin-top:14px;font-size:13px;line-height:1.45;color:var(--ink-soft);
+    opacity:0;transform:translateY(8px);
+    transition:opacity .5s ease,transform .5s ease;
+  }
+  .hv-csub.on{opacity:1;transform:none;}
+  .hv-cdot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--accent);}
+
+  /* Fortschritt / Steuerung */
+  .hv-track{
+    margin:0 -20px;padding:8px 0;cursor:pointer;
+  }
+  .hv-rail{height:3px;background:var(--line);}
+  .hv-bar{height:100%;width:0;background:var(--accent);}
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block{
+    padding:88px 0;
+    border-top:1px solid var(--line);
+  }
+  .block-head{
+    max-width:640px;
+    margin:0 0 48px;
+  }
+  .block-head h2{
+    font-size:clamp(26px,3vw,36px);
+    font-weight:700;
+    letter-spacing:-0.015em;
+    margin-top:12px;
+  }
+  .block-head .lede{
+    margin-top:14px;
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:52ch;
+  }
+
+  /* ---------- PRICING ---------- */
+  .price-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+  }
+  .price-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  .price-card.featured{
+    border-color:var(--accent);
+    box-shadow:var(--shadow);
+  }
+  .badge{
+    position:absolute;
+    top:-13px;right:28px;
+    background:var(--accent);
+    color:#fff;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    padding:5px 12px;
+    border-radius:999px;
+  }
+  .price-name{font-size:15px;font-weight:600;color:var(--ink-soft);}
+  .price-amount{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin-top:14px;
+  }
+  .price-amount .num{
+    font-family:'Sora',sans-serif;
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .price-amount .unit{
+    font-size:14.5px;
+    color:var(--ink-faint);
+  }
+  .price-desc{
+    margin-top:10px;
+    color:var(--ink-soft);
+    font-size:14.5px;
+  }
+  .price-features{
+    list-style:none;
+    margin:26px 0 28px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }
+  .price-features li{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .price-features svg{flex:none;color:var(--accent);margin-top:2px;width:16px;height:16px;}
+
+  /* ---------- BENEFITS ---------- */
+  .benefit-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+  }
+  .benefit{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px 20px;
+  }
+  .benefit-icon{
+    width:38px;height:38px;
+    border-radius:9px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:16px;
+  }
+  .benefit-icon svg{width:19px;height:19px;}
+  .benefit h3{font-size:15.5px;font-weight:600;}
+  .benefit p{margin-top:8px;font-size:13.8px;color:var(--ink-soft);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 0;
+  }
+  .footer-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:13.5px;
+    color:var(--ink-faint);
+  }
+  .footer-row .wordmark{font-size:15px;}
+  .footer-seal{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .footer-seal .divider{
+    width:1px;height:28px;
+    background:var(--line-strong);
+  }
+  .footer-seal img{
+    height:34px;
+    width:auto;
+    display:block;
+    opacity:0.92;
+  }
+  .footer-seal a{
+    display:flex;
+    align-items:center;
+  }
+  .footer-seal a:hover img{opacity:1;}
+
+  @media (max-width:860px){
+    .hero{padding:56px 0 64px;}
+    .hero .wrap{grid-template-columns:1fr;gap:44px;}
+    .price-grid{grid-template-columns:1fr;}
+    .benefit-grid{grid-template-columns:repeat(2,1fr);}
+    .nav-links{display:none;}
+  }
+  @media (max-width:420px){
+    .wrap{padding:0 16px;}
+    .nav-row{padding:16px;}
+    .hero-visual{padding:16px 14px 0;}
+    .hv-track{margin:0 -14px;}
+    .hv-stage{min-height:300px;}
+    .hv-paper{margin:0 8px;padding:14px 13px 18px;}
+    .hv-ctext{font-size:18px;}
+    .hv-drop{padding:16px 10px;}
+  }
+</style>
+
+<header class="nav">
+  <div class="nav-row">
+    <div class="wordmark"><span class="dot"></span>Viddoc</div>
+    <ul class="nav-links">
+      <li><a href="#produkt">Produkt</a></li>
+      <li><a href="#preise">Preise</a></li>
+      <li><a href="anleitung.html">Anleitung</a></li>
+      <li><a href="#vorteile">Vorteile</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="https://claude.ai/code/artifact/6df76db2-4e53-4403-9d0a-734ad5ed4f50">Jetzt starten</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="produkt">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Vom Bildschirmvideo zur Anleitung</span>
+        <h1>Zeigen Sie es einmal. Wir schreiben die Anleitung.</h1>
+        <p class="lede">Viddoc verwandelt eine Bildschirmaufnahme automatisch in eine Schritt-für-Schritt-Dokumentation mit Screenshots, fertig zum Teilen.</p>
+        <div class="hero-cta">
+          <a class="btn btn-quiet" href="anleitung.html">Wie es funktioniert</a>
+        </div>
+        <div class="trust-line">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6l7-3z"/></svg>
+          Sicher gespeichert in der Schweiz. Keine Weitergabe an Dritte.
+        </div>
+      </div>
+
+      <div class="hero-visual" id="heroDemo">
+        <div class="hv-chrome">
+          <span class="hv-label" id="hvLabel" aria-hidden="true">Hochladen</span>
+          <button type="button" class="hv-toggle" id="hvToggle" aria-label="Animation pausieren">
+            <svg class="ic-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="1.5" y="1" width="3" height="10" rx="1"/><rect x="7.5" y="1" width="3" height="10" rx="1"/></svg>
+            <svg class="ic-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M2.5 1l8 5-8 5z"/></svg>
+          </button>
+        </div>
+
+        <div class="hv-stage" aria-hidden="true">
+
+          <div class="hv-scene" data-scene="upload">
+            <div class="hv-drop">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              <span>Bildschirmaufnahme hierher ziehen</span>
+            </div>
+            <div class="hv-file">
+              <div class="hv-vthumb">
+                <svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>
+                <em>02:14</em>
+              </div>
+              <div class="hv-fmeta">
+                <b>prozess-aufnahme.mp4</b>
+                <span>34 MB · 1920 × 1080</span>
+              </div>
+            </div>
+            <div class="hv-cta">Dokument erstellen</div>
+          </div>
+
+          <div class="hv-scene" data-scene="process">
+            <p class="hv-pfile">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M17 10l5-3v10l-5-3"/></svg>
+              prozess-aufnahme.mp4 · 02:14 Min.
+            </p>
+            <div class="hv-progress"><i></i></div>
+            <ul class="hv-phases">
+              <li><span class="hv-dot"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4l2.4 2.4 4.6-5"/></svg></span>Video analysieren</li>
+              <li><span class="hv-dot"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4l2.4 2.4 4.6-5"/></svg></span>Schritte erkennen</li>
+              <li><span class="hv-dot"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4l2.4 2.4 4.6-5"/></svg></span>Screenshots extrahieren</li>
+              <li><span class="hv-dot"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.4l2.4 2.4 4.6-5"/></svg></span>Text formulieren</li>
+            </ul>
+          </div>
+
+          <div class="hv-scene" data-scene="doc">
+            <div class="hv-word">
+              <div class="hv-wbar"><b></b><b></b><b></b><span>Neuen-Eintrag-erfassen.docx</span></div>
+              <div class="hv-wribbon"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="hv-wview">
+                <div class="hv-paper">
+                  <div data-stop>
+                    <p class="hv-h1">Neuen Eintrag erfassen</p>
+                    <p class="hv-meta">Anleitung · 4 Schritte · aus prozess-aufnahme.mp4</p>
+                    <div class="hv-rule"></div>
+                    <p class="hv-p">Diese Anleitung zeigt Schritt für Schritt, wie ein neuer Eintrag erfasst und gespeichert wird. Sie entstand automatisch aus einer Bildschirmaufnahme von 02:14 Min.</p>
+                  </div>
+                  <div class="hv-sec" data-stop>
+                    <p class="hv-h2">Schritt 1 – Bereich «Einträge» öffnen<em>00:06</em></p>
+                    <p class="hv-p">Klicken Sie in der linken Navigation auf «Einträge». Die Übersicht mit allen bestehenden Einträgen wird geladen.</p>
+                    <div class="hv-shot" data-k="1" data-v="list">
+                      <span class="sh-side"></span><span class="sh-nav"></span><span class="sh-title"></span>
+                      <span class="sh-btn-a"></span><span class="sh-line-a"></span><span class="sh-line-b"></span><span class="sh-btn-b"></span>
+                      <i></i>
+                    </div>
+                  </div>
+                  <div class="hv-sec" data-stop>
+                    <p class="hv-h2">Schritt 2 – Auf «Neu» klicken<em>00:41</em></p>
+                    <p class="hv-p">Klicken Sie oben rechts auf «Neu». Das leere Erfassungsformular öffnet sich.</p>
+                    <div class="hv-shot" data-k="2" data-v="list">
+                      <span class="sh-side"></span><span class="sh-nav"></span><span class="sh-title"></span>
+                      <span class="sh-btn-a"></span><span class="sh-line-a"></span><span class="sh-line-b"></span><span class="sh-btn-b"></span>
+                      <i></i>
+                    </div>
+                  </div>
+                  <div class="hv-sec" data-stop>
+                    <p class="hv-h2">Schritt 3 – Angaben ausfüllen<em>01:12</em></p>
+                    <p class="hv-p">Füllen Sie die Pflichtfelder aus. Die Eingaben werden laufend geprüft, fehlende Angaben werden markiert.</p>
+                    <div class="hv-shot" data-k="3" data-v="form">
+                      <span class="sh-side"></span><span class="sh-nav"></span><span class="sh-title"></span>
+                      <span class="sh-btn-a"></span><span class="sh-line-a"></span><span class="sh-line-b"></span><span class="sh-btn-b"></span>
+                      <i></i>
+                    </div>
+                  </div>
+                  <div class="hv-sec" data-stop>
+                    <p class="hv-h2">Schritt 4 – Eintrag speichern<em>01:38</em></p>
+                    <p class="hv-p">Klicken Sie unten rechts auf «Speichern». Der neue Eintrag erscheint danach zuoberst in der Übersicht.</p>
+                    <div class="hv-shot" data-k="4" data-v="form">
+                      <span class="sh-side"></span><span class="sh-nav"></span><span class="sh-title"></span>
+                      <span class="sh-btn-a"></span><span class="sh-line-a"></span><span class="sh-line-b"></span><span class="sh-btn-b"></span>
+                      <i></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="hv-wscroll"><i></i></div>
+              </div>
+            </div>
+            <p class="hv-done">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+              Fertig. Bereit zum Teilen.
+            </p>
+          </div>
+
+          <div class="hv-scene" data-scene="claim">
+            <div class="hv-claim">
+              <p class="hv-ctext">Ihre Prozesse dokumentieren sich ab jetzt selbst.</p>
+              <p class="hv-csub"><span class="hv-cdot"></span>Viddoc spart Ihnen bei jeder Anleitung Stunden.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="hv-track" id="hvTrack" aria-hidden="true">
+          <div class="hv-rail"><div class="hv-bar" id="hvBar"></div></div>
+        </div>
+
+        <p class="sr-only">Animation: Eine Bildschirmaufnahme wird hochgeladen, Viddoc erkennt die einzelnen Schritte und erzeugt daraus ein fertiges Dokument, das Schritt für Schritt mit Text und Screenshots durchgeblättert wird. Zum Schluss erscheint die Aussage: Ihre Prozesse dokumentieren sich ab jetzt selbst.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="preise">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="eyebrow">Preise</span>
+        <h2>Bezahlen Sie, wie Sie arbeiten.</h2>
+        <p class="lede">Einzelne Anleitung oder laufender Bedarf, Sie entscheiden. Das Abo ist jederzeit kündbar.</p>
+      </div>
+
+      <div class="price-grid">
+        <div class="price-card">
+          <span class="price-name">Pay-per-Use</span>
+          <div class="price-amount"><span class="num mono">CHF 2.–</span><span class="unit">pro Video</span></div>
+          <p class="price-desc">Ideal für den gelegentlichen Bedarf. Sie zahlen nur, wenn Sie ein Video hochladen.</p>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Alle Funktionen inklusive</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Keine Vertragsbindung</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Abrechnung nach Verbrauch</li>
+          </ul>
+          <a class="btn btn-quiet btn-block" href="#">Pay-per-Use wählen</a>
+        </div>
+
+        <div class="price-card featured">
+          <span class="badge">Beliebt</span>
+          <span class="price-name">Monatsabo</span>
+          <div class="price-amount"><span class="num mono">CHF 19.–</span><span class="unit">pro Monat</span></div>
+          <p class="price-desc">Für regelmässige Anleitungen, bis zu 20 Videos im Monat.</p>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Bis zu 20 Videos pro Monat</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Jederzeit kündbar</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Persönlicher Login inklusive</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="#">Abo abschliessen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="vorteile">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="eyebrow">Vorteile</span>
+        <h2>Ihre Daten bleiben Ihre Daten.</h2>
+        <p class="lede">Viddoc ist auf Vertraulichkeit ausgelegt, vom Login bis zum Serverstandort.</p>
+      </div>
+
+      <div class="benefit-grid">
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+          </div>
+          <h3>Persönlicher Login</h3>
+          <p>Alle erstellten Anleitungen werden sicher unter Ihrem persönlichen Konto gespeichert.</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Schweizer Hosting</h3>
+          <p>Ihre Videos und Dokumente werden nach Swiss Code auf Schweizer Servern verarbeitet.</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.8l7.8-4.2M8.2 13.2l7.8 4.2"/><path d="M3 3l18 18" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Keine Weitergabe</h3>
+          <p>Ihre Informationen werden mit keinem weiteren Dienst geteilt, niemals.</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Automatisch erstellt</h3>
+          <p>Schritte und Screenshots werden direkt aus Ihrem Video erkannt, ganz ohne manuelle Arbeit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="wordmark"><span class="dot"></span>Viddoc</span>
+    <div class="footer-seal">
+      <span>© 2026 Viddoc. Entwickelt in der Schweiz.</span>
+      <span class="divider" aria-hidden="true"></span>
+      <a href="https://www.swissmadesoftware.org" target="_blank" rel="noopener">
+        <img src="data:image/png;base64,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" alt="Swiss Made Software">
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.getElementById('heroDemo');
+  if(!root) return;
+
+  var stage  = root.querySelector('.hv-stage');
+  var label  = document.getElementById('hvLabel');
+  var toggle = document.getElementById('hvToggle');
+  var track  = document.getElementById('hvTrack');
+  var bar    = document.getElementById('hvBar');
+
+  var scUp   = root.querySelector('[data-scene="upload"]');
+  var scPro  = root.querySelector('[data-scene="process"]');
+  var scDoc  = root.querySelector('[data-scene="doc"]');
+  var scCl   = root.querySelector('[data-scene="claim"]');
+  var drop   = root.querySelector('.hv-drop');
+  var file   = root.querySelector('.hv-file');
+  var cta    = root.querySelector('.hv-cta');
+  var pbar   = root.querySelector('.hv-progress i');
+  var phases = Array.prototype.slice.call(root.querySelectorAll('.hv-phases li'));
+  var word   = root.querySelector('.hv-word');
+  var view   = root.querySelector('.hv-wview');
+  var paper  = root.querySelector('.hv-paper');
+  var stops  = Array.prototype.slice.call(root.querySelectorAll('.hv-paper [data-stop]'));
+  var thumb  = root.querySelector('.hv-wscroll i');
+  var done   = root.querySelector('.hv-done');
+  var ctext  = root.querySelector('.hv-ctext');
+  var csub   = root.querySelector('.hv-csub');
+
+  var DUR = 43000;
+  var T = {
+    fill:2800, cta:6000, click:8400,
+    proc:10000, bar0:10200, bar1:14600, ph:[11300,12400,13500,14600],
+    doc:17000, word:17300, stops:[17600,20400,23400,26400,29400],
+    fin:32400, claim:35500, ctext:35900, csub:36600, out:41500
+  };
+  var PAD = 16; // Innenabstand oben im Papier
+  var LABEL = ['Hochladen','Erkennen','Fertiges Dokument','Viddoc'];
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var t = reduce ? 39000 : 0;
+  var playing = !reduce;
+  var onScreen = true;
+  var last = null, nofx = 0;
+
+  function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  function skipTransitions(){
+    stage.classList.add('hv-nofx');
+    nofx = 3;
+  }
+
+  // Blättert das Papier so, dass der angefragte Abschnitt oben steht
+  function scrollDoc(i){
+    var el = stops[i];
+    if(!el || !paper || !view) return;
+    var max = paper.offsetHeight - view.clientHeight;
+    if(max < 0) max = 0;
+    var y = el.offsetTop - PAD;
+    if(y < 0) y = 0;
+    if(y > max) y = max;
+    paper.style.transform = 'translateY(' + (-y) + 'px)';
+    if(thumb && paper.offsetHeight > 0){
+      var ratio = view.clientHeight / paper.offsetHeight;
+      thumb.style.height = (ratio > 1 ? 100 : ratio * 100) + '%';
+      thumb.style.transform = 'translateY(' + (y / paper.offsetHeight * view.clientHeight) + 'px)';
+    }
+  }
+
+  function render(){
+    var scene = t < T.proc ? 0 : t < T.doc ? 1 : t < T.claim ? 2 : 3;
+    scUp.classList.toggle('on', scene === 0);
+    scPro.classList.toggle('on', scene === 1);
+    scDoc.classList.toggle('on', scene === 2);
+    scCl.classList.toggle('on', scene === 3);
+    label.textContent = LABEL[scene];
+
+    drop.classList.toggle('filled', t >= T.fill);
+    file.classList.toggle('on', t >= T.fill);
+    cta.classList.toggle('on', t >= T.cta);
+    cta.classList.toggle('clicked', t >= T.click && t < T.click + 700);
+
+    pbar.style.width = (clamp01((t - T.bar0) / (T.bar1 - T.bar0)) * 100) + '%';
+    var act = -1;
+    for(var i = 0; i < phases.length; i++){
+      var isDone = t >= T.ph[i];
+      phases[i].classList.toggle('done', isDone);
+      if(!isDone && act < 0) act = i;
+    }
+    for(var j = 0; j < phases.length; j++){
+      phases[j].classList.toggle('act', j === act && t >= T.bar0 && t < T.doc);
+    }
+
+    word.classList.toggle('on', t >= T.word);
+    var stop = 0;
+    for(var k = 0; k < T.stops.length; k++){
+      if(t >= T.stops[k]) stop = k;
+    }
+    scrollDoc(stop);
+    done.classList.toggle('on', t >= T.fin && t < T.claim);
+    ctext.classList.toggle('on', t >= T.ctext);
+    csub.classList.toggle('on', t >= T.csub);
+
+    stage.classList.toggle('out', t >= T.out);
+    bar.style.width = (t / DUR * 100) + '%';
+  }
+
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(nofx > 0){
+      nofx--;
+      if(nofx === 0) stage.classList.remove('hv-nofx');
+    }
+    if(last === null) last = now;
+    var dt = now - last;
+    if(dt > 250) dt = 250;
+    last = now;
+    if(playing && onScreen){
+      t += dt;
+      if(t >= DUR){ t -= DUR; skipTransitions(); }
+    }
+    render();
+  }
+
+  function setPlaying(p){
+    playing = p;
+    root.classList.toggle('paused', !p);
+    toggle.setAttribute('aria-label', p ? 'Animation pausieren' : 'Animation abspielen');
+  }
+
+  toggle.addEventListener('click', function(){ setPlaying(!playing); });
+
+  track.addEventListener('click', function(e){
+    var r = track.getBoundingClientRect();
+    t = clamp01((e.clientX - r.left) / r.width) * DUR;
+    skipTransitions();
+    render();
+  });
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      onScreen = entries[0].isIntersecting;
+    }, { threshold: 0.15 }).observe(root);
+  }
+
+  setPlaying(!reduce);
+  render();
+  requestAnimationFrame(frame);
+})();
+</script>
+
